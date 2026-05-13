@@ -1,5 +1,5 @@
 ---
-name: Build and Publish Fossil Image
+name: Build and Publish Server Image
 
 on:
   push:
@@ -21,15 +21,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Extract metadata (tags, labels)
+      # server
+      - name: Extract server metadata (tags, labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
-      - name: Build and push Docker image
+          images: ghcr.io/${{ github.repository }}-server
+      - name: Build and push docker server image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./docker
+          file: ./docker/server/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
