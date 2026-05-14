@@ -28,12 +28,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}-{{ matrix.component }}
+          images: ghcr.io/${{ github.repository }}-${{ matrix.component }}
       - name: Build and push docker server image
         uses: docker/build-push-action@v5
         with:
           context: ./docker
-          file: ./docker/{{ matrix.component }}/Dockerfile
+          file: ./docker/${{ matrix.component }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
