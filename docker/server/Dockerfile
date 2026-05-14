@@ -26,3 +26,4 @@ COPY server/src/startup.sh /bin/startup.sh
 
 CMD /bin/startup.sh
 
+WORKDIR /root

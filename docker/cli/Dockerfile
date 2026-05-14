@@ -21,3 +21,4 @@ RUN mkdir download && \
 
 CMD sleep 99d
 
+WORKDIR /root
