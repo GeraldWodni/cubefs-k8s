@@ -11,6 +11,9 @@ jobs:
     permissions:
       packages: write
       contents: read
+    strategy:
+      matrix:
+        component: [server, cli]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,31 +23,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # server
+      # container
       - name: Extract server metadata (tags, labels)
-        id: meta-server
+        id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}-server
+          images: ghcr.io/${{ github.repository }}-{{ matrix.component }}
       - name: Build and push docker server image
         uses: docker/build-push-action@v5
         with:
           context: ./docker
-          file: ./docker/server/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-      # cli
-      - name: Extract cli metadata (tags, labels)
-        id: meta-cli
-        uses: docker/metadata-action@v5
-        with:
-          images: ghcr.io/${{ github.repository }}-cli
-      - name: Build and push docker cli image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./docker
-          file: ./docker/cli/Dockerfile
+          file: ./docker/{{ matrix.component }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
