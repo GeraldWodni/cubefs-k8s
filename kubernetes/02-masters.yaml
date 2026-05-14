@@ -14,10 +14,10 @@ data:
      "prof":"17020",
      "peers": "1:127.0.0.1:17010,2:127.0.0.2:17010,3:127.0.0.3:17010",
      "retainLogs":"20000",
-     "logDir": "/cfs/master/log",
+     "logDir": "/cubefs/master/log",
      "logLevel":"info",
-     "walDir":"/cfs/master/data/wal",
-     "storeDir":"/cfs/master/data/store",
+     "walDir":"/cubefs/master/data/wal",
+     "storeDir":"/cubefs/master/data/store",
      "exporterPort": 9500,
      "clusterName":"cubefs-big",
      "metaNodeReservedMem": "1073741824"
@@ -42,7 +42,7 @@ spec:
         "component.cubefs.io/master": enabled
       containers:
         - name: master
-          image: ghcr.io/geraldwodni/cubefs-k8s-server:latest
+          image: ghcr.io/geraldwodni/cubefs-k8s-server:v0.3
           env:
             - name: NODE_NAME
               valueFrom:
@@ -60,9 +60,10 @@ spec:
               mountPath: /etc/config-base.json
               subPath: config-base.json
               readOnly: true
-            - name: cfs
-              mountPath: /cfs
+            - name: cubefs
+              mountPath: /cubefs
           imagePullPolicy: Always
+      hostNetwork: true
       volumes:
         - name: layout
           configMap:
@@ -70,6 +71,6 @@ spec:
         - name: config
           configMap:
             name: cubefs-master
-        - name: cfs
+        - name: cubefs
           hostPath:
-            path: /data0/cfs
+            path: /data0/cubefs
