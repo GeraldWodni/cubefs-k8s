@@ -48,9 +48,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          command:
-            - sleep
-            - 99d
+          #command:
+          #  - sleep
+          #  - 99d
           volumeMounts:
             - name: layout
               mountPath: /etc/layout.json
