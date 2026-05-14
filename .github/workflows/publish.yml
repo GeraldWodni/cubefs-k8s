@@ -3,7 +3,6 @@ name: Build and Publish Server Image
 
 on:
   push:
-    branches: ['master']
     tags: ['v*']
 
 jobs:
@@ -32,6 +31,20 @@ jobs:
         with:
           context: ./docker
           file: ./docker/server/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      # cli
+      - name: Extract cli metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}-cli
+      - name: Build and push docker cli image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./docker
+          file: ./docker/cli/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
