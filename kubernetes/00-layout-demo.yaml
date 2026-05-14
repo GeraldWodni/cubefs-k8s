@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cubefs-layout
+  namespace: cubefs
+data:
+  layout.json: |
+    {
+      "one.example.com":  {
+        "id": 1,
+        "ip": "127.0.0.1",
+        "peers": "1:127.0.0.1:17010,2:127.0.0.2:17010,3:127.0.0.3:17010"
+      },
+      "two.example.com":  {
+        "id": 2,
+        "ip": "127.0.0.2",
+        "peers": "1:127.0.0.1:17010,2:127.0.0.2:17010,3:127.0.0.3:17010"
+      },
+      "three.example.com":  {
+        "id": 3,
+        "ip": "127.0.0.3",
+        "peers": "1:127.0.0.1:17010,2:127.0.0.2:17010,3:127.0.0.3:17010"
+      }
+    }
