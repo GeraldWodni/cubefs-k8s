@@ -22,7 +22,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       # server
       - name: Extract server metadata (tags, labels)
-        id: meta
+        id: meta-server
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}-server
@@ -36,7 +36,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
       # cli
       - name: Extract cli metadata (tags, labels)
-        id: meta
+        id: meta-cli
         uses: docker/metadata-action@v5
         with:
           images: ghcr.io/${{ github.repository }}-cli
