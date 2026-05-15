@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LAST_TAG=$(git tag | tail -n 1)
+LAST_TAG=$(git describe --tags --abbrev=0)
 PREFIX=$(echo $LAST_TAG | cut -d. -f1)
 SUFFIX=$(echo $LAST_TAG | cut -d. -f2)
 
