@@ -23,9 +23,9 @@ fi
 echo "Final config:"
 cat /etc/config.json | jq
 
-printf "Waiting for kubernetes-dns to catch up with $CUBEFS_SERVICE_NAME "
+echo "Waiting for kubernetes-dns to catch up with $CUBEFS_SERVICE_NAME "
+sleep 15
 until ping -c 1 $CUBEFS_SERVICE_NAME; do
-    printf "."
     sleep 1
 done
 
