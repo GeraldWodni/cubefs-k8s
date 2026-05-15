@@ -23,5 +23,11 @@ fi
 echo "Final config:"
 cat /etc/config.json | jq
 
-echo "Config finished, starting cfs"
+printf "Waiting for kubernetes-dns to catch up"
+until ping -c 1 $NODE_NAME; do
+    printf "."
+    sleep 1
+done
+
+echo -e "\nConfig finished, starting cfs"
 /bin/cfs-server -redirect-std -f -c /etc/config.json

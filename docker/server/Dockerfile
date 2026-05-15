@@ -6,6 +6,7 @@ COPY shared/env2json.awk /bin/env2json.awk
 RUN apt-get update && apt-get install -y \
     gawk \
     curl \
+    iputils-ping \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
