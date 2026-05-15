@@ -13,6 +13,12 @@ if [ -f /etc/layout.json ]; then
 
     # merge configurations
     jq -s '.[0] * .[1] * .[2]' /etc/config-base.json /etc/config-node.json /etc/config-live.json > /etc/config.json
+
+    echo "Waiting for kubernetes-dns to catch up with $CUBEFS_SERVICE_NAME "
+    sleep 15
+    until ping -c 1 $CUBEFS_SERVICE_NAME; do
+        sleep 1
+    done
 else
     echo "  Writing config (w/o layout)"
     # small configuration
@@ -23,11 +29,8 @@ fi
 echo "Final config:"
 cat /etc/config.json | jq
 
-echo "Waiting for kubernetes-dns to catch up with $CUBEFS_SERVICE_NAME "
-sleep 15
-until ping -c 1 $CUBEFS_SERVICE_NAME; do
-    sleep 1
-done
+echo "Short wait"
+sleep 5
 
 echo -e "\nConfig finished, starting cfs"
 /bin/cfs-server -redirect-std -f -c /etc/config.json
